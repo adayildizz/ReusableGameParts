@@ -1,6 +1,6 @@
 [gd_scene load_steps=61 format=3 uid="uid://cpmghkqf7qwu2"]
 
-[ext_resource type="Script" path="res://fsm/fsm.gd" id="1_2fp3t"]
+[ext_resource type="Script" path="res://player/player.gd" id="1_2m4ya"]
 [ext_resource type="Texture2D" uid="uid://6351muntlejk" path="res://assets/Kings and Pigs/Sprites/01-King Human/Attack (78x58).png" id="2_4bitg"]
 [ext_resource type="Texture2D" uid="uid://coqc5suioquny" path="res://assets/Kings and Pigs/Sprites/01-King Human/Dead (78x58).png" id="3_k4jiv"]
 [ext_resource type="Texture2D" uid="uid://dju0mrw3h2psk" path="res://assets/Kings and Pigs/Sprites/01-King Human/Door In (78x58).png" id="4_ro2x5"]
@@ -396,10 +396,13 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Player" type="CharacterBody2D"]
-
-[node name="FSM" type="Node" parent="."]
-script = ExtResource("1_2fp3t")
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("animations")]
+script = ExtResource("1_2m4ya")
+friction = 400.0
+gravity = 900.0
+acceleration = 0.5
+speed = 100.0
+animations = NodePath("AnimatedSprite2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_iv4dn")
