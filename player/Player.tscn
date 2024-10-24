@@ -1,7 +1,9 @@
-[gd_scene load_steps=61 format=3 uid="uid://cpmghkqf7qwu2"]
+[gd_scene load_steps=65 format=3 uid="uid://cpmghkqf7qwu2"]
 
 [ext_resource type="Script" path="res://fsm/fsm.gd" id="1_2fp3t"]
+[ext_resource type="Script" path="res://player/player.gd" id="1_2m4ya"]
 [ext_resource type="Texture2D" uid="uid://6351muntlejk" path="res://assets/Kings and Pigs/Sprites/01-King Human/Attack (78x58).png" id="2_4bitg"]
+[ext_resource type="Script" path="res://player/idle.gd" id="2_bm5ky"]
 [ext_resource type="Texture2D" uid="uid://coqc5suioquny" path="res://assets/Kings and Pigs/Sprites/01-King Human/Dead (78x58).png" id="3_k4jiv"]
 [ext_resource type="Texture2D" uid="uid://dju0mrw3h2psk" path="res://assets/Kings and Pigs/Sprites/01-King Human/Door In (78x58).png" id="4_ro2x5"]
 [ext_resource type="Texture2D" uid="uid://c737edhrcuc1l" path="res://assets/Kings and Pigs/Sprites/01-King Human/Door Out (78x58).png" id="5_er4qa"]
@@ -11,6 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://bdfue7c58102q" path="res://assets/Kings and Pigs/Sprites/01-King Human/Idle (78x58).png" id="9_iftx3"]
 [ext_resource type="Texture2D" uid="uid://b73ywc7b2wrw6" path="res://assets/Kings and Pigs/Sprites/01-King Human/Jump (78x58).png" id="10_3bir0"]
 [ext_resource type="Texture2D" uid="uid://b2eeqa6d3y4hc" path="res://assets/Kings and Pigs/Sprites/01-King Human/Run (78x58).png" id="11_sggem"]
+[ext_resource type="Script" path="res://player/run.gd" id="14_qh46x"]
+[ext_resource type="Script" path="res://player/jump.gd" id="15_qgqku"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iv4dn"]
 
@@ -356,7 +360,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
-"speed": 5.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -393,19 +397,50 @@ animations = [{
 }],
 "loop": true,
 "name": &"run",
-"speed": 5.0
+"speed": 15.0
 }]
 
-[node name="Player" type="CharacterBody2D"]
-
-[node name="FSM" type="Node" parent="."]
-script = ExtResource("1_2fp3t")
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("animations", "fsm", "idle_state", "run_state", "jump_state", "coyote_timer")]
+script = ExtResource("1_2m4ya")
+jumping_speed = 400.0
+acceleration = 0.2
+speed = 300.0
+animations = NodePath("AnimatedSprite2D")
+fsm = NodePath("FSM")
+idle_state = NodePath("FSM/Idle")
+run_state = NodePath("FSM/Run")
+jump_state = NodePath("FSM/Jump")
+coyote_timer = NodePath("CoyoteTimer")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_iv4dn")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(8, -5)
+position = Vector2(7, -5)
 sprite_frames = SubResource("SpriteFrames_74wjt")
-animation = &"idle"
-frame_progress = 0.253943
+animation = &"run"
+
+[node name="FSM" type="Node" parent="." node_paths=PackedStringArray("state")]
+script = ExtResource("1_2fp3t")
+state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="FSM" node_paths=PackedStringArray("actor")]
+script = ExtResource("2_bm5ky")
+actor = NodePath("../..")
+
+[node name="Run" type="Node" parent="FSM" node_paths=PackedStringArray("actor")]
+script = ExtResource("14_qh46x")
+actor = NodePath("../..")
+
+[node name="Jump" type="Node" parent="FSM" node_paths=PackedStringArray("actor")]
+script = ExtResource("15_qgqku")
+actor = NodePath("../..")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+
+[node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
