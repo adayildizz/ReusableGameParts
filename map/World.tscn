@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=4 uid="uid://f24cb70c0q16"]
+[gd_scene load_steps=6 format=4 uid="uid://f24cb70c0q16"]
 
 [ext_resource type="Texture2D" uid="uid://c4tmi5giactyt" path="res://assets/Kings and Pigs/Sprites/14-TileSets/Terrain (32x32).png" id="1_1ykle"]
 [ext_resource type="PackedScene" uid="uid://cpmghkqf7qwu2" path="res://player/Player.tscn" id="2_oj6kg"]
+[ext_resource type="PackedScene" uid="uid://c8hwysir38l5t" path="res://interactables/Box.tscn" id="3_q7mtq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mq0bq"]
 texture = ExtResource("1_1ykle")
@@ -714,7 +715,8 @@ texture_region_size = Vector2i(32, 32)
 
 [sub_resource type="TileSet" id="TileSet_mvqgd"]
 tile_size = Vector2i(32, 32)
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 7
+physics_layer_0/collision_mask = 7
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = " walls"
 terrain_set_0/terrain_0/color = Color(0.501961, 1, 0.25098, 1)
@@ -730,3 +732,9 @@ tile_set = SubResource("TileSet_mvqgd")
 
 [node name="Player" parent="." instance=ExtResource("2_oj6kg")]
 position = Vector2(334, 108)
+
+[node name="Box" parent="." instance=ExtResource("3_q7mtq")]
+position = Vector2(255, 520)
+collision_layer = 2
+collision_mask = 3
+input_pickable = true

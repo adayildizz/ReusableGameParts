@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://c8hwysir38l5t"]
+
+[ext_resource type="Texture2D" uid="uid://dddl5bp14hap6" path="res://assets/Kings and Pigs/Sprites/08-Box/Idle.png" id="1_ejilu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h3cmd"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_byolx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ejilu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Box" type="RigidBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(1, 0.76)
+shape = SubResource("RectangleShape2D_h3cmd")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, 0)
+sprite_frames = SubResource("SpriteFrames_byolx")
