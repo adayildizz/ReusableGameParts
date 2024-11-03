@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://cpmghkqf7qwu2"]
+[gd_scene load_steps=66 format=3 uid="uid://cpmghkqf7qwu2"]
 
 [ext_resource type="Script" path="res://fsm/fsm.gd" id="1_2fp3t"]
 [ext_resource type="Script" path="res://player/player.gd" id="1_2m4ya"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://b2eeqa6d3y4hc" path="res://assets/Kings and Pigs/Sprites/01-King Human/Run (78x58).png" id="11_sggem"]
 [ext_resource type="Script" path="res://player/run.gd" id="14_qh46x"]
 [ext_resource type="Script" path="res://player/jump.gd" id="15_qgqku"]
+[ext_resource type="Script" path="res://player/attack.gd" id="16_772wc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iv4dn"]
 
@@ -416,9 +417,10 @@ coyote_timer = NodePath("CoyoteTimer")
 shape = SubResource("RectangleShape2D_iv4dn")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(7, -5)
+position = Vector2(7, -4)
 sprite_frames = SubResource("SpriteFrames_74wjt")
-animation = &"run"
+animation = &"fall"
+frame_progress = 0.599733
 
 [node name="FSM" type="Node" parent="." node_paths=PackedStringArray("state")]
 script = ExtResource("1_2fp3t")
@@ -435,6 +437,9 @@ actor = NodePath("../..")
 [node name="Jump" type="Node" parent="FSM" node_paths=PackedStringArray("actor")]
 script = ExtResource("15_qgqku")
 actor = NodePath("../..")
+
+[node name="Attack" type="Node" parent="FSM"]
+script = ExtResource("16_772wc")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
